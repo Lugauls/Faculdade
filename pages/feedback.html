@@ -47,23 +47,23 @@
 
   <script>
     function submitFeedback() {
-      // Obter valores dos campos
+      
       var name = document.getElementById('name').value;
       var email = document.getElementById('email').value;
       var comments = document.getElementById('comments').value;
 
-      // Validação simples
+      
       if (!name || !email || !comments) {
         alert('Por favor, preencha todos os campos.');
         return;
       }
 
-      // Exibir alerta com informações do formulário
+      
       var message = 'Obrigado por seu feedback, ' + name 
 
       alert(message);
 
-      // Limpar os campos do formulário
+      
       document.getElementById('name').value = '';
       document.getElementById('email').value = '';
       document.getElementById('comments').value = '';
@@ -184,11 +184,11 @@
           resultElement.textContent = 'Resposta incorreta. A resposta correta é a opção ' + (correctAnswer + 1) + '.';
         }
   
-        // Avance para a próxima pergunta apenas se a resposta estiver correta
+        
         if (selectedOption === correctAnswer) {
           currentQuestion++;
   
-          // Se todas as perguntas foram respondidas, reinicie o quiz
+          
           if (currentQuestion === questions.length) {
             currentQuestion = 0;
           }
@@ -197,7 +197,7 @@
         }
       }
   
-      showQuestion(); // Chame isso para iniciar o quiz
+      showQuestion(); 
     </script>
 
 </body>
