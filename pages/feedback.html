@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form</title>
+    <link rel="stylesheet" href="/Kennedy/css/style.css">
+    <link rel="script" href="/Kennedy/scripts/feedback.js">
+</head>
+<aside class="menu white-bg">
+  <section class="main-content menu-content">
+    <h1><a href="/Kennedy/pages/feedback.html">feedback</a></h1>
+  <nav>
+      <ul>
+          <li> <a href="/Kennedy/pages/index.html">Introdução</a> </li>
+          <li> <a href="/Kennedy/pages/Sobre.html">Sobre</a> </li>
+          <li> <a href="/Kennedy/pages/Galeria.html">Galeria</a> </li>
+          <li> <a href="/Kennedy/pages/feedback.html"></a></li>
+      </ul>
+  </nav>
+  </section>
+</aside>
+<body>
+<section class="main-bg section">
+  <div class="main-content sobre-content">
+  <form id="feedbackForm">
+
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required>
+
+    <div class="menu-spacing"></div>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <div class="menu-spacing"></div>
+
+    <label for="comments">Comentario:</label>
+    <textarea id="comments" name="comments" rows="10" cols="100" required></textarea>
+
+    <div class="menu-spacing"></div>
+
+    <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+  </form>
+</div>
+</section>
+
+  <script>
+    function submitFeedback() {
+      // Obter valores dos campos
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var comments = document.getElementById('comments').value;
+
+      // Validação simples
+      if (!name || !email || !comments) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      // Exibir alerta com informações do formulário
+      var message = 'Obrigado por seu feedback, ' + name 
+
+      alert(message);
+
+      // Limpar os campos do formulário
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('comments').value = '';
+    }
+  </script>
+
+
+<section class="white-bg section">
+<div class="main-content sobre-content">
+
+
+
+<h2>Horas passadas desde a morte de JFK</h2>
+
+<div id="countdown"></div>
+
+<script> 
+  var kennedyDeathDate = new Date('1963-11-22T12:30:00-06:00');
+
+  function updateCountdown() {
+    var now = new Date();
+    var timeDiff = now - kennedyDeathDate;
+
+    var days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+    document.getElementById('countdown').innerHTML =
+      days + ' Dias, ' +
+      hours + ' horas, ' +
+      minutes + ' minutos, ' +
+      seconds + ' segundos';
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown(); 
+</script>
+</div>
+</section>
+
+
+<section class="main-bg section">
+  <div class="main-content sobre-content">
+    <h1>Quiz</h1>
+    <div id="quiz">
+      <h2 id="question"></h2>
+      <ul id="options"></ul>
+      <button onclick="checkAnswer()">Verificar Resposta</button>
+      <p id="result"></p>
+    </div>
+  
+    <script>
+      var currentQuestion = 0;
+      var questions = [
+        {
+          question: 'Qual foi o ano do assassinato de John F. Kennedy?',
+          options: ['1963', '1965', '1970', '1980'],
+          correctAnswer: 0
+        },
+        {
+          question: 'Quem foi o assassino de JFK?',
+          options: ['Lee Harvey Oswald', 'Jack Ruby', 'Fidel Castro', 'Mafia'],
+          correctAnswer: 0
+        }
+      ];
+  
+      function showQuestion() {
+        var questionElement = document.getElementById('question');
+        var optionsElement = document.getElementById('options');
+        var resultElement = document.getElementById('result');
+  
+        questionElement.textContent = questions[currentQuestion].question;
+        optionsElement.innerHTML = '';
+  
+        questions[currentQuestion].options.forEach(function (option, index) {
+          var li = document.createElement('li');
+          li.textContent = option;
+          li.addEventListener('click', function () {
+            selectOption(index);
+          });
+          optionsElement.appendChild(li);
+        });
+  
+        resultElement.textContent = '';
+      }
+  
+      function selectOption(index) {
+        var options = document.getElementById('options').getElementsByTagName('li');
+        for (var i = 0; i < options.length; i++) {
+          options[i].classList.remove('selected');
+        }
+        options[index].classList.add('selected');
+      }
+  
+      function checkAnswer() {
+        var options = document.getElementById('options').getElementsByTagName('li');
+        var resultElement = document.getElementById('result');
+        var selectedOption;
+  
+        for (var i = 0; i < options.length; i++) {
+          if (options[i].classList.contains('selected')) {
+            selectedOption = i;
+            break;
+          }
+        }
+  
+        if (selectedOption === undefined) {
+          resultElement.textContent = 'Por favor, selecione uma opção.';
+          return;
+        }
+  
+        var correctAnswer = questions[currentQuestion].correctAnswer;
+  
+        if (selectedOption === correctAnswer) {
+          resultElement.textContent = 'Resposta correta!';
+        } else {
+          resultElement.textContent = 'Resposta incorreta. A resposta correta é a opção ' + (correctAnswer + 1) + '.';
+        }
+  
+        // Avance para a próxima pergunta apenas se a resposta estiver correta
+        if (selectedOption === correctAnswer) {
+          currentQuestion++;
+  
+          // Se todas as perguntas foram respondidas, reinicie o quiz
+          if (currentQuestion === questions.length) {
+            currentQuestion = 0;
+          }
+  
+          showQuestion();
+        }
+      }
+  
+      showQuestion(); // Chame isso para iniciar o quiz
+    </script>
+
+</body>
+</html>
